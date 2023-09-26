@@ -4,11 +4,13 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CameraSubsystem;
 
 public class CameraTest extends CommandBase {
-  CameraSubsystem m_camera;
+  private final CameraSubsystem m_camera;
+  private final Timer m_timer = new Timer();
   public CameraTest(CameraSubsystem camera) {
     m_camera = camera;
     addRequirements(camera);
@@ -16,12 +18,17 @@ public class CameraTest extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_timer.start();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_camera.takeSnapshot();
+    if (m_timer.advanceIfElapsed(0.5)) {
+      m_camera.takeSnapshot();
+      System.out.println("Took a Snapshot");
+    }
   }
 
   // Called once the command ends or is interrupted.
