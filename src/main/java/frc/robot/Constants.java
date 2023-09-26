@@ -23,9 +23,12 @@ public final class Constants {
     public static final double kFieldLength = 0.0;
     public static final double kFieldWidth = 0.0;
   }
-
+  
+  //TODO: Fill in the parameters
   public static class PhotonVisionConstants {
-    public static final Transform3d kCameraToRobotOffset = new Transform3d();
+    public static final String kCameraName1 = "OV9281";
+    public static final Transform3d kCamera1ToRobotOffset = new Transform3d();
+
     public static final double kCameraHeightMeters1 = 0.0;
     public static final double kCameraHeightMeters2 = 0.0;
     public static final double kCameraHeightMeters3 = 0.0;
@@ -38,6 +41,8 @@ public final class Constants {
     public static final double kTargetHeightMeters6 = 0.0;
     public static final double kTargetHeightMeters7 = 0.0;
     public static final double kTargetHeightMeters8 = 0.0;
+
+    //TODO: Replace the numbers with actual camera names
     public static double findCameraHeight(String cameraName) {
       if (cameraName == "1") {
         return kCameraHeightMeters1;
@@ -52,6 +57,7 @@ public final class Constants {
         throw new Error("Invalid Camera ID");
       }
     }
+    
     public static double findTargetHeight(int targetID) {
       if (targetID == 1) {
         return kTargetHeightMeters1;

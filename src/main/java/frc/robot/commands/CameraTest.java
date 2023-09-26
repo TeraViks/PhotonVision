@@ -6,12 +6,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.CameraSubsystem;
+import frc.robot.subsystems.Camera1Subsystem;
 
 public class CameraTest extends CommandBase {
-  private final CameraSubsystem m_camera;
+  private final Camera1Subsystem m_camera;
   private final Timer m_timer = new Timer();
-  public CameraTest(CameraSubsystem camera) {
+  public CameraTest(Camera1Subsystem camera) {
     m_camera = camera;
     addRequirements(camera);
   }
