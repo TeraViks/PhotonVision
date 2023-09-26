@@ -20,16 +20,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.PhotonVisionConstants;
 
-public class CameraSubsystem extends SubsystemBase {
+public class Camera1Subsystem extends SubsystemBase {
   PhotonCamera m_camera;
   PhotonPipelineResult m_result;
   PhotonTrackedTarget m_bestTarget;
+  //TODO: Fill in the null for the apriltag
   AprilTagFieldLayout m_aprilTagFieldLayout = 
     new AprilTagFieldLayout(
       null, FieldConstants.kFieldLength, FieldConstants.kFieldWidth
     );
 
-  public CameraSubsystem(String CameraName) {
+  public Camera1Subsystem(String CameraName) {
     m_camera = new PhotonCamera(CameraName);
   }
 
@@ -131,7 +132,7 @@ public class CameraSubsystem extends SubsystemBase {
     return PhotonUtils.estimateFieldToRobotAprilTag(
         getBestCameraToTarget(),
         m_aprilTagFieldLayout.getTagPose(getTagID()).get(),
-        PhotonVisionConstants.kCameraToRobotOffset
+        PhotonVisionConstants.kCamera1ToRobotOffset
       );
   }
 
@@ -139,7 +140,7 @@ public class CameraSubsystem extends SubsystemBase {
     return PhotonUtils.estimateFieldToRobotAprilTag(
         getBestCameraToTarget(target),
         m_aprilTagFieldLayout.getTagPose(getTagID(target)).get(),
-        PhotonVisionConstants.kCameraToRobotOffset
+        PhotonVisionConstants.kCamera1ToRobotOffset
       );
   }
 

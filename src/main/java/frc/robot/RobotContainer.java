@@ -4,8 +4,9 @@
 
 package frc.robot;
 
+import frc.robot.Constants.PhotonVisionConstants;
 import frc.robot.commands.CameraTest;
-import frc.robot.subsystems.CameraSubsystem;
+import frc.robot.subsystems.Camera1Subsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -16,8 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final CameraSubsystem m_camera = new CameraSubsystem("OV9281");
-
+  private final Camera1Subsystem m_camera = new Camera1Subsystem(PhotonVisionConstants.kCameraName1);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
