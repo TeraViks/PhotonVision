@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
@@ -23,7 +24,7 @@ import frc.robot.Constants.PhotonVisionConstants;
 public class Camera1Subsystem extends SubsystemBase {
   PhotonCamera m_camera;
   PhotonPipelineResult m_result;
-  PhotonTrackedTarget m_bestTarget;
+  Optional<PhotonTrackedTarget> m_lowestAmbiguityTarget;
   //TODO: Fill in the null for the apriltag
   AprilTagFieldLayout m_aprilTagFieldLayout = 
     new AprilTagFieldLayout(
@@ -42,79 +43,36 @@ public class Camera1Subsystem extends SubsystemBase {
     return m_result.getTargets();
   }
 
-  public int getTagID() {
-    return m_bestTarget.getFiducialId();
-  }
-
   public int getTagID(PhotonTrackedTarget target) {
     return target.getFiducialId();
-  }
-
-  public PhotonTrackedTarget getBestTarget() {
-    return m_result.getBestTarget();
   }
 
   public void takeSnapshot() {
     m_camera.takeInputSnapshot();
   }
 
-  public double getPitch() {
-    return m_bestTarget.getPitch();
-  }
-
   public double getPitch(PhotonTrackedTarget target) {
     return target.getPitch();
-  }
-
-  public double getYaw() {
-    return m_bestTarget.getYaw();
   }
 
   public double getYaw(PhotonTrackedTarget target) {
     return target.getYaw();
   }
 
-  public double getSkew() {
-    return m_bestTarget.getSkew();
-  }
-
   public double getSkew(PhotonTrackedTarget target) {
     return target.getSkew();
   }
 
-  public double getArea() {
-    return m_bestTarget.getArea();
-  }
-
-  public double GetArea(PhotonTrackedTarget target) {
+  public double getArea(PhotonTrackedTarget target) {
     return target.getArea();
-  }
-
-  public List<TargetCorner> getCorners() {
-    return m_bestTarget.getDetectedCorners();
   }
 
   public List<TargetCorner> getCorners(PhotonTrackedTarget target) {
     return target.getDetectedCorners();
   }
 
-  public Transform3d getBestCameraToTarget() {
-    return m_bestTarget.getBestCameraToTarget();
-  }
-
   public Transform3d getBestCameraToTarget(PhotonTrackedTarget target) {
     return target.getBestCameraToTarget();
-  }
-
-  public double getDistanceToTarget() {
-    return (
-      PhotonUtils.calculateDistanceToTargetMeters(
-        PhotonVisionConstants.findCameraHeight(m_camera.getName()),
-        PhotonVisionConstants.findTargetHeight(m_bestTarget.getFiducialId()),
-        PhotonVisionConstants.KCameraPitchRadians,
-        Units.degreesToRadians(getPitch())
-      )
-    );
   }
 
   public double getDistanceToTarget(PhotonTrackedTarget target) {
@@ -128,14 +86,6 @@ public class Camera1Subsystem extends SubsystemBase {
     );
   }
 
-  public Pose3d getFieldRelativePose() {
-    return PhotonUtils.estimateFieldToRobotAprilTag(
-        getBestCameraToTarget(),
-        m_aprilTagFieldLayout.getTagPose(getTagID()).get(),
-        PhotonVisionConstants.kCamera1ToRobotOffset
-      );
-  }
-
   public Pose3d getFieldRelativePose(PhotonTrackedTarget target) {
     return PhotonUtils.estimateFieldToRobotAprilTag(
         getBestCameraToTarget(target),
@@ -144,11 +94,29 @@ public class Camera1Subsystem extends SubsystemBase {
       );
   }
 
+  private Optional<PhotonTrackedTarget> getLowestAmbiguityTargetImpl(List<PhotonTrackedTarget> targetList) {
+    Optional<PhotonTrackedTarget> bestTarget = Optional.empty();
+    for (int i=0; i<targetList.size(); i++) {
+      PhotonTrackedTarget currentTarget = targetList.get(i);
+      if (currentTarget.getPoseAmbiguity() == -1 || currentTarget.getPoseAmbiguity() >= 0.2) continue;
+      if (bestTarget.isEmpty()) {
+        bestTarget = Optional.of(currentTarget);
+        continue;
+      }
+      if (currentTarget.getPoseAmbiguity() < bestTarget.get().getPoseAmbiguity()) {
+        bestTarget = Optional.of(currentTarget);
+      }
+    }
+    return bestTarget;
+  }
+
+  public Optional<PhotonTrackedTarget> getLowestAmbiguityTarget() {
+    return m_lowestAmbiguityTarget;
+  }
+
   @Override
   public void periodic() {
     m_result = m_camera.getLatestResult(); 
-    if (hasTargets()) {
-      m_bestTarget = m_result.getBestTarget();
-    }
+    m_lowestAmbiguityTarget = getLowestAmbiguityTargetImpl(getAllTargets());
   }
 }
