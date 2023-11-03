@@ -29,9 +29,10 @@ public final class Constants {
     public static final String kCameraName1 = "OV9281";
     public static final Transform3d kCamera1ToRobotOffset = new Transform3d();
 
-    public static final double kCameraHeightMeters1 = 0.0;
-    public static final double kCameraHeightMeters2 = 0.0;
-    public static final double kCameraHeightMeters3 = 0.0;
+    public static final double kCamera1HeightMeters = 0.215;
+    public static final double kCamera2HeightMeters = 0.0;
+    public static final double kCamera3HeightMeters = 0.0;
+
     public static final double KCameraPitchRadians = 0.0;
     public static final double kTargetHeightMeters1 = 0.0;
     public static final double kTargetHeightMeters2 = 0.0;
@@ -42,21 +43,14 @@ public final class Constants {
     public static final double kTargetHeightMeters7 = 0.0;
     public static final double kTargetHeightMeters8 = 0.0;
 
-    //TODO: Replace the numbers with actual camera names
-    public static double findCameraHeight(String cameraName) {
-      if (cameraName == "1") {
-        return kCameraHeightMeters1;
-      }
-      else if (cameraName == "2") {
-        return kCameraHeightMeters2;
-      }
-      else if (cameraName == "3") {
-        return kCameraHeightMeters3;
-      }
-      else {
-        throw new Error("Invalid Camera ID");
-      }
-    }
+    public static final double kTarget1HeightMeters = 0.426;
+    public static final double kTarget2HeightMeters = 0.424;
+    public static final double kTarget3HeightMeters = 0.426;
+    public static final double kTarget4HeightMeters = 0.0;
+    public static final double kTarget5HeightMeters = 0.0;
+    public static final double kTarget6HeightMeters = 0.0;
+    public static final double kTarget7HeightMeters = 0.0;
+    public static final double kTarget8HeightMeters = 0.0;
     
     public static double findTargetHeight(int targetID) {
       if (targetID == 1) {
