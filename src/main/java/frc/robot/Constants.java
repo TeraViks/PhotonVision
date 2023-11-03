@@ -20,11 +20,10 @@ public final class Constants {
   }
   
   public static class FieldConstants {
-    public static final double kFieldLength = 0.0;
-    public static final double kFieldWidth = 0.0;
+    public static final double kFieldLength = 4.0;
+    public static final double kFieldWidth = 3.0;
   }
   
-  //TODO: Fill in the parameters
   public static class PhotonVisionConstants {
     public static final String kCameraName1 = "OV9281";
     public static final Transform3d kCamera1ToRobotOffset = new Transform3d();
@@ -34,14 +33,6 @@ public final class Constants {
     public static final double kCamera3HeightMeters = 0.0;
 
     public static final double KCameraPitchRadians = 0.0;
-    public static final double kTargetHeightMeters1 = 0.0;
-    public static final double kTargetHeightMeters2 = 0.0;
-    public static final double kTargetHeightMeters3 = 0.0;
-    public static final double kTargetHeightMeters4 = 0.0;
-    public static final double kTargetHeightMeters5 = 0.0;
-    public static final double kTargetHeightMeters6 = 0.0;
-    public static final double kTargetHeightMeters7 = 0.0;
-    public static final double kTargetHeightMeters8 = 0.0;
 
     public static final double kTarget1HeightMeters = 0.426;
     public static final double kTarget2HeightMeters = 0.424;
@@ -54,28 +45,28 @@ public final class Constants {
     
     public static double findTargetHeight(int targetID) {
       if (targetID == 1) {
-        return kTargetHeightMeters1;
+        return kTarget1HeightMeters;
       }
       else if (targetID == 2) {
-        return kTargetHeightMeters2;
+        return kTarget2HeightMeters;
       }
       else if (targetID == 3) {
-        return kTargetHeightMeters3;
+        return kTarget3HeightMeters;
       }
       else if (targetID == 4) {
-        return kTargetHeightMeters4;
+        return kTarget4HeightMeters;
       }
       else if (targetID == 5) {
-        return kTargetHeightMeters5;
+        return kTarget5HeightMeters;
       }
       else if (targetID == 6) {
-        return kTargetHeightMeters6;
+        return kTarget6HeightMeters;
       }
       else if (targetID == 7) {
-        return kTargetHeightMeters7;
+        return kTarget7HeightMeters;
       }
       else if (targetID == 8) {
-        return kTargetHeightMeters8;
+        return kTarget8HeightMeters;
       }
       else {
         throw new Error("Invalid Target ID");
