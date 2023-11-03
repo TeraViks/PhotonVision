@@ -5,9 +5,6 @@
 package frc.robot.commands;
 
 import java.util.Optional;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -36,7 +33,6 @@ public class CameraTest extends CommandBase {
   @Override
   public void execute() {
     PhotonTrackedTarget target;
-    // if (m_timer.advanceIfElapsed(1)) {
       Optional<PhotonTrackedTarget> Optionaltarget = m_camera.getLowestAmbiguityTarget();
       if (Optionaltarget.isEmpty()) return;
       target = Optionaltarget.get();
@@ -46,7 +42,6 @@ public class CameraTest extends CommandBase {
       if (robotPoseEstimator.isEmpty()) return;
       SmartDashboard.putString("Estimator Pose", robotPoseEstimator.get().estimatedPose.getTranslation().toString() + " | Rotation: " + Math.toDegrees(robotPoseEstimator.get().estimatedPose.getRotation().getAngle()*Math.PI));
       SmartDashboard.putString("No Estimator Pose", robotPose.getTranslation().toString() + " | Rotation: " + Math.toDegrees(robotPose.getRotation().getAngle()));
-    // }
   }
 
   // Called once the command ends or is interrupted.
