@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ public class Camera1Subsystem extends SubsystemBase {
   private final double kAprilTagOffsetMeters = 0.0;
 
   PhotonCamera m_camera;
+  PhotonPoseEstimator m_photonPoseEstimator;
   PhotonPipelineResult m_result;
   Optional<PhotonTrackedTarget> m_lowestAmbiguityTarget;
   AprilTag aprilTag1 = new AprilTag(1, new Pose3d(new Translation3d(4.0, 0.5+kAprilTagOffsetMeters, PhotonVisionConstants.kTarget1HeightMeters), new Rotation3d(0.0, 0.0, Math.PI)));
@@ -43,8 +45,24 @@ public class Camera1Subsystem extends SubsystemBase {
       aprilTagList, FieldConstants.kFieldLength, FieldConstants.kFieldWidth
     );
 
+  //Constructor
   public Camera1Subsystem(String CameraName) {
     m_camera = new PhotonCamera(CameraName);
+    m_photonPoseEstimator = 
+    new PhotonPoseEstimator(
+      m_aprilTagFieldLayout,
+      PoseStrategy.MULTI_TAG_PNP,
+      m_camera,
+      PhotonVisionConstants.kCamera1ToRobotOffset
+    );
+  }
+
+  public PoseStrategy getEstimatorStrategy() {
+    return m_photonPoseEstimator.getPrimaryStrategy();
+  }
+
+  public void setLED(VisionLEDMode mode) {
+    m_camera.setLED(mode);
   }
 
   public boolean hasTargets() {
@@ -59,23 +77,25 @@ public class Camera1Subsystem extends SubsystemBase {
     m_camera.takeInputSnapshot();
   }
 
+  public Optional<EstimatedRobotPose> getFieldRelativePoseEstimator() {
+    return m_photonPoseEstimator.update(m_result);
   }
 
   public double getDistanceToTarget(PhotonTrackedTarget target) {
     return (
       PhotonUtils.calculateDistanceToTargetMeters(
-        PhotonVisionConstants.findCameraHeight(m_camera.getName()),
+        PhotonVisionConstants.kCamera1HeightMeters,
         PhotonVisionConstants.findTargetHeight(target.getFiducialId()),
         PhotonVisionConstants.KCameraPitchRadians,
-        Units.degreesToRadians(getPitch(target))
+        Units.degreesToRadians(target.getPitch())
       )
     );
   }
 
   public Pose3d getFieldRelativePose(PhotonTrackedTarget target) {
     return PhotonUtils.estimateFieldToRobotAprilTag(
-        getBestCameraToTarget(target),
-        m_aprilTagFieldLayout.getTagPose(getTagID(target)).get(),
+        target.getBestCameraToTarget(),
+        m_aprilTagFieldLayout.getTagPose(target.getFiducialId()).get(),
         PhotonVisionConstants.kCamera1ToRobotOffset
       );
   }
