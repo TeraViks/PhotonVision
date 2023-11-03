@@ -43,36 +43,10 @@ public class Camera1Subsystem extends SubsystemBase {
     return m_result.getTargets();
   }
 
-  public int getTagID(PhotonTrackedTarget target) {
-    return target.getFiducialId();
-  }
-
   public void takeSnapshot() {
     m_camera.takeInputSnapshot();
   }
 
-  public double getPitch(PhotonTrackedTarget target) {
-    return target.getPitch();
-  }
-
-  public double getYaw(PhotonTrackedTarget target) {
-    return target.getYaw();
-  }
-
-  public double getSkew(PhotonTrackedTarget target) {
-    return target.getSkew();
-  }
-
-  public double getArea(PhotonTrackedTarget target) {
-    return target.getArea();
-  }
-
-  public List<TargetCorner> getCorners(PhotonTrackedTarget target) {
-    return target.getDetectedCorners();
-  }
-
-  public Transform3d getBestCameraToTarget(PhotonTrackedTarget target) {
-    return target.getBestCameraToTarget();
   }
 
   public double getDistanceToTarget(PhotonTrackedTarget target) {
