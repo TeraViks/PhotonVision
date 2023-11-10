@@ -42,34 +42,26 @@ public final class Constants {
     public static final double kTarget6HeightMeters = 0.0;
     public static final double kTarget7HeightMeters = 0.0;
     public static final double kTarget8HeightMeters = 0.0;
-    
+
     public static double findTargetHeight(int targetID) {
-      if (targetID == 1) {
-        return kTarget1HeightMeters;
-      }
-      else if (targetID == 2) {
-        return kTarget2HeightMeters;
-      }
-      else if (targetID == 3) {
-        return kTarget3HeightMeters;
-      }
-      else if (targetID == 4) {
-        return kTarget4HeightMeters;
-      }
-      else if (targetID == 5) {
-        return kTarget5HeightMeters;
-      }
-      else if (targetID == 6) {
-        return kTarget6HeightMeters;
-      }
-      else if (targetID == 7) {
-        return kTarget7HeightMeters;
-      }
-      else if (targetID == 8) {
-        return kTarget8HeightMeters;
-      }
-      else {
-        throw new Error("Invalid Target ID");
+      switch(targetID) {
+        case 1: targetID = 1;
+          return kTarget1HeightMeters;
+        case 2: targetID = 2;
+          return kTarget2HeightMeters;
+        case 3: targetID = 3;
+          return kTarget3HeightMeters;
+        case 4: targetID = 4;
+          return kTarget4HeightMeters;
+        case 5: targetID = 5;
+          return kTarget5HeightMeters;
+        case 6: targetID = 6;
+          return kTarget6HeightMeters;
+        case 7: targetID = 7;
+          return kTarget7HeightMeters;
+        case 8: targetID = 8;
+          return kTarget8HeightMeters;
+        default: throw new Error("Invalid Target ID");
       }
     }
   }
