@@ -34,9 +34,9 @@ public final class Constants {
 
     public static final double KCameraPitchRadians = 0.0;
 
-    public static final double kTarget1HeightMeters = 0.426;
-    public static final double kTarget2HeightMeters = 0.424;
-    public static final double kTarget3HeightMeters = 0.426;
+    public static final double kTarget1HeightMeters = 0.540;
+    public static final double kTarget2HeightMeters = 0.522;
+    public static final double kTarget3HeightMeters = 0.530;
     public static final double kTarget4HeightMeters = 0.0;
     public static final double kTarget5HeightMeters = 0.0;
     public static final double kTarget6HeightMeters = 0.0;
