@@ -51,7 +51,7 @@ public class Camera1Subsystem extends SubsystemBase {
     m_photonPoseEstimator = 
     new PhotonPoseEstimator(
       m_aprilTagFieldLayout,
-      PoseStrategy.MULTI_TAG_PNP,
+      PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
       m_camera,
       PhotonVisionConstants.kCamera1ToRobotOffset
     );

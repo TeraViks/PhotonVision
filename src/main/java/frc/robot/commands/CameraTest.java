@@ -11,10 +11,10 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Camera1Subsystem;
 
-public class CameraTest extends CommandBase {
+public class CameraTest extends Command {
   private final Camera1Subsystem m_camera;
   private Timer m_timer;
   public CameraTest(Camera1Subsystem camera) {
