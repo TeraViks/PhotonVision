@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -95,12 +97,11 @@ public class CameraSubsystem extends SubsystemBase {
     m_camera2.takeInputSnapshot();
   }
 
-  public Optional<EstimatedRobotPose> getFieldRelativePoseEstimatorCam1() {
-    return m_photonPoseEstimatorCam1.update(m_resultCam1);
-  }
-
-  public Optional<EstimatedRobotPose> getFieldRelativePoseEstimatorCam2() {
-    return m_photonPoseEstimatorCam2.update(m_resultCam2);
+  public ArrayList<Optional<EstimatedRobotPose>> getFieldRelativePoseEstimators() {
+    ArrayList<Optional<EstimatedRobotPose>> estimatorList = new ArrayList<Optional<EstimatedRobotPose>>();
+    estimatorList.add(m_photonPoseEstimatorCam1.update(m_resultCam1));
+    estimatorList.add(m_photonPoseEstimatorCam2.update(m_resultCam2));
+    return estimatorList;
   }
 
   public double getDistanceToTarget(PhotonTrackedTarget target) {
