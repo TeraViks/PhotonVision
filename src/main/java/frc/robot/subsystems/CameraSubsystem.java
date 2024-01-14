@@ -12,7 +12,6 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
-import org.photonvision.common.hardware.VisionLEDMode;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import org.photonvision.PhotonPoseEstimator;
@@ -27,13 +26,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.PhotonVisionConstants;
 
-public class Camera1Subsystem extends SubsystemBase {
+public class CameraSubsystem extends SubsystemBase {
   // private final double kAprilTagOffsetMeters = 0.0762;
   private final double kAprilTagOffsetMeters = 0.0;
 
-  PhotonCamera m_camera;
-  PhotonPoseEstimator m_photonPoseEstimator;
-  PhotonPipelineResult m_result;
+  PhotonCamera m_camera1;
+  // PhotonCamera m_camera2;
+  PhotonPoseEstimator m_photonPoseEstimatorCam1;
+  // PhotonPoseEstimator m_photonPoseEstimatorCam2;
+  PhotonPipelineResult m_resultCam1;
+  // PhotonPipelineResult m_resultCam2;
   Optional<PhotonTrackedTarget> m_lowestAmbiguityTarget;
   AprilTag aprilTag1 = new AprilTag(1, new Pose3d(new Translation3d(4.0, 0.5+kAprilTagOffsetMeters, PhotonVisionConstants.kTarget1HeightMeters), new Rotation3d(0.0, 0.0, Math.PI)));
   AprilTag aprilTag2 = new AprilTag(2, new Pose3d(new Translation3d(4.0, 2.5+kAprilTagOffsetMeters, PhotonVisionConstants.kTarget2HeightMeters), new Rotation3d(0.0, 0.0, Math.PI)));
@@ -46,40 +48,64 @@ public class Camera1Subsystem extends SubsystemBase {
     );
 
   //Constructor
-  public Camera1Subsystem(String CameraName) {
-    m_camera = new PhotonCamera(CameraName);
-    m_photonPoseEstimator = 
+  public CameraSubsystem(String Camera1Name, String Camera2Name) {
+    m_camera1 = new PhotonCamera(Camera1Name);
+    // m_camera2 = new PhotonCamera(Camera2Name);
+
+    m_photonPoseEstimatorCam1 = 
     new PhotonPoseEstimator(
       m_aprilTagFieldLayout,
       PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-      m_camera,
+      m_camera1,
       PhotonVisionConstants.kCamera1ToRobotOffset
     );
+    
+    // m_photonPoseEstimatorCam2 =
+    // new PhotonPoseEstimator(
+    //   m_aprilTagFieldLayout,
+    //   PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+    //   m_camera2,
+    //   PhotonVisionConstants.kCamera2ToRobotOffset
+    // );
   }
 
   public PoseStrategy getEstimatorStrategy() {
-    return m_photonPoseEstimator.getPrimaryStrategy();
+    return m_photonPoseEstimatorCam1.getPrimaryStrategy();
   }
 
-  public void setLED(VisionLEDMode mode) {
-    m_camera.setLED(mode);
+  public boolean hasTargetsCam1() {
+    return m_resultCam1.hasTargets();
   }
 
-  public boolean hasTargets() {
-    return m_result.hasTargets();
+  // public boolean hasTargetsCam2() {
+  //   return m_resultCam2.hasTargets();
+  // }
+
+  // TODO: Use .addAll instead of .add
+  // public List<PhotonTrackedTarget> getAllTargets() {
+  //   List<PhotonTrackedTarget> combinedList = m_resultCam1.getTargets();
+  //   for (int i=0; i<m_resultCam2.getTargets().size(); i++) {
+  //     combinedList.add(m_resultCam2.getTargets().get(i));
+  //   }
+  //   return combinedList;
+  // }
+
+  public void takeSnapshotCam1() {
+    m_camera1.takeInputSnapshot();
   }
 
-  public List<PhotonTrackedTarget> getAllTargets() {
-    return m_result.getTargets();
+  // public void takeSnapshotCam2() {
+  //   m_camera2.takeInputSnapshot();
+  // }
+
+  public Optional<EstimatedRobotPose> getFieldRelativePoseEstimatorCam1() {
+    System.out.println("Updating Pose Estimator");
+    return m_photonPoseEstimatorCam1.update(m_resultCam1);
   }
 
-  public void takeSnapshot() {
-    m_camera.takeInputSnapshot();
-  }
-
-  public Optional<EstimatedRobotPose> getFieldRelativePoseEstimator() {
-    return m_photonPoseEstimator.update(m_result);
-  }
+  // public Optional<EstimatedRobotPose> getFieldRelativePoseEstimatorCam2() {
+  //   return m_photonPoseEstimatorCam2.update(m_resultCam2);
+  // }
 
   public double getDistanceToTarget(PhotonTrackedTarget target) {
     return (
@@ -122,7 +148,9 @@ public class Camera1Subsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_result = m_camera.getLatestResult(); 
-    m_lowestAmbiguityTarget = getLowestAmbiguityTargetImpl(getAllTargets());
+    m_resultCam1 = m_camera1.getLatestResult();
+    System.out.println("Running periodic");
+    // m_resultCam2 = m_camera2.getLatestResult();
+    // m_lowestAmbiguityTarget = getLowestAmbiguityTargetImpl(getAllTargets());
   }
 }
