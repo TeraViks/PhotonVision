@@ -81,7 +81,6 @@ public class CameraSubsystem extends SubsystemBase {
     return m_resultCam2.hasTargets();
   }
 
-  // TODO: Use .addAll instead of .add
   public List<PhotonTrackedTarget> getAllTargets() {
     List<PhotonTrackedTarget> combinedList = m_resultCam1.getTargets();
     combinedList.addAll(m_resultCam2.getTargets());
