@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 
 /**
@@ -25,8 +27,11 @@ public final class Constants {
   }
   
   public static class PhotonVisionConstants {
-    public static final String kCameraName1 = "OV9281";
+    public static final String kCameraName1 = "cam1";
+    public static final String kCameraName2 = "Camera2";
     public static final Transform3d kCamera1ToRobotOffset = new Transform3d();
+    public static final Transform3d kCamera2ToRobotOffset = new Transform3d(0.12, 0.0, 0.0, new Rotation3d());
+
 
     public static final double kCamera1HeightMeters = 0.215;
     public static final double kCamera2HeightMeters = 0.0;
