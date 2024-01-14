@@ -45,16 +45,13 @@ public class CameraTest extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Optional<EstimatedRobotPose> robotPoseEstimatorCam2 = m_photonCameras.getFieldRelativePoseEstimatorCam2();
-    if (!robotPoseEstimatorCam2.isEmpty()) {
-      m_poseEstimator.addVisionMeasurement(robotPoseEstimatorCam2.get().estimatedPose.toPose2d(), robotPoseEstimatorCam2.get().timestampSeconds);
-      SmartDashboard.putString("Estimator Pose 2", robotPoseEstimatorCam2.get().estimatedPose.getTranslation().toString() + " | Rotation: " + Math.toDegrees(robotPoseEstimatorCam2.get().estimatedPose.getRotation().getAngle()*Math.PI));
-    }
-
-    Optional<EstimatedRobotPose> robotPoseEstimatorCam1 = m_photonCameras.getFieldRelativePoseEstimatorCam1();
-    if (!robotPoseEstimatorCam1.isEmpty()) {
-      m_poseEstimator.addVisionMeasurement(robotPoseEstimatorCam1.get().estimatedPose.toPose2d(), robotPoseEstimatorCam1.get().timestampSeconds);
-      SmartDashboard.putString("Estimator Pose 1", robotPoseEstimatorCam1.get().estimatedPose.getTranslation().toString() + " | Rotation: " + Math.toDegrees(robotPoseEstimatorCam1.get().estimatedPose.getRotation().getAngle()*Math.PI));
+    Optional<EstimatedRobotPose> robotPoseEstimator = m_photonCameras.getFieldRelativePoseEstimators().get(0);
+    for (int i=0; i<m_photonCameras.getFieldRelativePoseEstimators().size(); i++) {
+      if (!robotPoseEstimator.isEmpty()) {
+        String formattedString = String.format("Estimated Pose for Cam %d", i+1);
+        m_poseEstimator.addVisionMeasurement(robotPoseEstimator.get().estimatedPose.toPose2d(), robotPoseEstimator.get().timestampSeconds);
+        SmartDashboard.putString(formattedString, robotPoseEstimator.get().estimatedPose.getTranslation().toString() + " | Rotation: " + Math.toDegrees(robotPoseEstimator.get().estimatedPose.getRotation().getAngle()*Math.PI));
+      }
     }
 
     m_poseEstimator.update(new Rotation2d(), 0, 0);
