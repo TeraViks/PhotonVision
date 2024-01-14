@@ -45,11 +45,11 @@ public class CameraTest extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Optional<EstimatedRobotPose> robotPoseEstimatorCam2 = m_photonCameras.getFieldRelativePoseEstimatorCam2();
-    // if (!robotPoseEstimatorCam2.isEmpty()) {
-    //   m_poseEstimator.addVisionMeasurement(robotPoseEstimatorCam2.get().estimatedPose.toPose2d(), robotPoseEstimatorCam2.get().timestampSeconds);
-    //   SmartDashboard.putString("Estimator Pose 2", robotPoseEstimatorCam2.get().estimatedPose.getTranslation().toString() + " | Rotation: " + Math.toDegrees(robotPoseEstimatorCam2.get().estimatedPose.getRotation().getAngle()*Math.PI));
-    // }
+    Optional<EstimatedRobotPose> robotPoseEstimatorCam2 = m_photonCameras.getFieldRelativePoseEstimatorCam2();
+    if (!robotPoseEstimatorCam2.isEmpty()) {
+      m_poseEstimator.addVisionMeasurement(robotPoseEstimatorCam2.get().estimatedPose.toPose2d(), robotPoseEstimatorCam2.get().timestampSeconds);
+      SmartDashboard.putString("Estimator Pose 2", robotPoseEstimatorCam2.get().estimatedPose.getTranslation().toString() + " | Rotation: " + Math.toDegrees(robotPoseEstimatorCam2.get().estimatedPose.getRotation().getAngle()*Math.PI));
+    }
 
     Optional<EstimatedRobotPose> robotPoseEstimatorCam1 = m_photonCameras.getFieldRelativePoseEstimatorCam1();
     if (!robotPoseEstimatorCam1.isEmpty()) {
